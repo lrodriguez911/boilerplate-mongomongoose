@@ -3,41 +3,56 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const mySecret = process.env['MONGO_URI']
 
-mongoose.connect(mySecret,{ useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true })
 
 
 const { Schema } = mongoose;
 
 const PersonSchema = new Schema({
-  name : {type : String, required: true},
-  age : Number,
-  favoriteFoods : [String]
+  name: { type: String, required: true },
+  age: Number,
+  favoriteFoods: [String]
 })
 
 const Person = mongoose.model('Person', PersonSchema);
 
 const createAndSavePerson = (done) => {
-let lucasRod = new Person({
-  name: 'Lucas Rodriguez',
-  age: 30, 
-  favoriteFoods:['pizza', 'milanesas']});
+  let lucasRod = new Person({
+    name: 'Lucas Rodriguez',
+    age: 30,
+    favoriteFoods: ['pizza', 'milanesas']
+  });
   lucasRod.save(function(err, data) {
-  if(err) return console.error(err);
+    if (err) return console.error(err);
     console.log(data)
     done(null, data);
   })
 };
-
+const arrayOfPeople = [
+    { name: 'Exequiel', age: 31, favoriteFoods: ['guiso', 'cheese', 'hamburguer'] },
+    { name: 'Nazarea', age: 21, favoriteFoods: ['fruits', 'spaghetti', 'cake'] },
+    { name: 'Benjamin', age: 18, favoriteFoods: ['humita', 'locro', 'hamburguer'] }
+  ]
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+  
+  Person.create(arrayOfPeople, function(err, datapeople) {
+    if (err) return console.log(err);
+    done(null, datapeople);
+  })
 };
-
+//const personName = {name: 'Nazarea'}
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Person.find({name :personName}, function(err, dataFind) {
+    if(err) return console.log(err);
+    done(null, dataFind)
+  })
 };
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food}, function(err, dataFindOne) {
+    if(err) return console.log(err);
+    done(null, dataFindOne)
+  })
 };
 
 const findPersonById = (personId, done) => {
