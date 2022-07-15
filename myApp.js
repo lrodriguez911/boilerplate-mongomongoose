@@ -29,12 +29,12 @@ const createAndSavePerson = (done) => {
   })
 };
 const arrayOfPeople = [
-    { name: 'Exequiel', age: 31, favoriteFoods: ['guiso', 'cheese', 'hamburguer'] },
-    { name: 'Nazarea', age: 21, favoriteFoods: ['fruits', 'spaghetti', 'cake'] },
-    { name: 'Benjamin', age: 18, favoriteFoods: ['humita', 'locro', 'hamburguer'] }
-  ]
+  { name: 'Exequiel', age: 31, favoriteFoods: ['guiso', 'cheese', 'hamburguer'] },
+  { name: 'Nazarea', age: 21, favoriteFoods: ['fruits', 'spaghetti', 'cake'] },
+  { name: 'Benjamin', age: 18, favoriteFoods: ['humita', 'locro', 'hamburguer'] }
+]
 const createManyPeople = (arrayOfPeople, done) => {
-  
+
   Person.create(arrayOfPeople, function(err, datapeople) {
     if (err) return console.log(err);
     done(null, datapeople);
@@ -42,33 +42,33 @@ const createManyPeople = (arrayOfPeople, done) => {
 };
 //const personName = {name: 'Nazarea'}
 const findPeopleByName = (personName, done) => {
-  Person.find({name :personName}, function(err, dataFind) {
-    if(err) return console.log(err);
+  Person.find({ name: personName }, function(err, dataFind) {
+    if (err) return console.log(err);
     done(null, dataFind)
   })
 };
 
 const findOneByFood = (food, done) => {
-  Person.findOne({favoriteFoods: food}, function(err, dataFindOne) {
-    if(err) return console.log(err);
+  Person.findOne({ favoriteFoods: food }, function(err, dataFindOne) {
+    if (err) return console.log(err);
     done(null, dataFindOne)
   })
 };
 
 const findPersonById = (personId, done) => {
-  Person.findById(personId, function(err, dataFindId){
-    if(err) return console.log(err);
+  Person.findById(personId, function(err, dataFindId) {
+    if (err) return console.log(err);
     done(null, dataFindId)
   })
 };
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
-  Person.findById(personId,function(err, dataPerson){
-    if(err) console.error(err);
+  Person.findById(personId, function(err, dataPerson) {
+    if (err) console.error(err);
     dataPerson.favoriteFoods.push(foodToAdd);
-    dataPerson.save(function(err, dataPersonUpda){
-      if(err) console.error(err);
+    dataPerson.save(function(err, dataPersonUpda) {
+      if (err) console.error(err);
       done(null, dataPersonUpda)
     })
   })
@@ -76,8 +76,15 @@ const findEditThenSave = (personId, done) => {
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-
-  done(null /*, data*/);
+  Person.findOneAndUpdate(
+    { name: personName },
+    { age: ageToSet },
+    { new: true },
+    function(err, dataFindOne) {
+      if (err) return console.error(err);
+      done(null, dataFindOne);
+    }
+  )
 };
 
 const removeById = (personId, done) => {
