@@ -14,9 +14,8 @@ const PersonSchema = new Schema({
   birthday : Date,
   favoriteFoods : [String],
 })
+
 const Person = mongoose.model('Person', PersonSchema);
-
-
 
 const createAndSavePerson = (done) => {
   const person1 = new Person({
