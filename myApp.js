@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const mySecret = process.env['MONGO_URI']
+const mySecret = process.env.MONGO_URI
 
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -35,7 +35,7 @@ const arrayOfPeople = [
 ]
 const createManyPeople = (arrayOfPeople, done) => {
 
-  Person.create(arrayOfPeople, function(err, datapeople) {
+   Person.create(arrayOfPeople,function(err, datapeople) {
     if (err) return console.log(err);
     done(null, datapeople);
   })
